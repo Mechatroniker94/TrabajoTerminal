@@ -68,6 +68,12 @@ Version 4.0 HI-TECH Software Intermediate Code
 "34752
 [; ;C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\pic\include\proc\pic16f18855.h: 34752: extern volatile unsigned char INLVLE __attribute__((address(0xF68)));
 [v _INLVLE `Vuc ~T0 @X0 0 e@3944 ]
+"32471
+[; ;C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\pic\include\proc\pic16f18855.h: 32471: extern volatile unsigned char RC0PPS __attribute__((address(0xF20)));
+[v _RC0PPS `Vuc ~T0 @X0 0 e@3872 ]
+"31567
+[; ;C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\pic\include\proc\pic16f18855.h: 31567: extern volatile unsigned char RXPPS __attribute__((address(0xECB)));
+[v _RXPPS `Vuc ~T0 @X0 0 e@3787 ]
 "55 C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\pic\include\proc\pic16f18855.h
 [; ;C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\pic\include\proc\pic16f18855.h: 55: __asm("INDF0 equ 00h");
 [; <" INDF0 equ 00h ;# ">
@@ -1646,11 +1652,11 @@ Version 4.0 HI-TECH Software Intermediate Code
 [; ;mcc_generated_files/pin_manager.c: 68:     TRISB = 0xFF;
 [e = _TRISB -> -> 255 `i `uc ]
 "69
-[; ;mcc_generated_files/pin_manager.c: 69:     TRISC = 0xFF;
-[e = _TRISC -> -> 255 `i `uc ]
+[; ;mcc_generated_files/pin_manager.c: 69:     TRISC = 0xFE;
+[e = _TRISC -> -> 254 `i `uc ]
 "74
-[; ;mcc_generated_files/pin_manager.c: 74:     ANSELC = 0xFF;
-[e = _ANSELC -> -> 255 `i `uc ]
+[; ;mcc_generated_files/pin_manager.c: 74:     ANSELC = 0xFD;
+[e = _ANSELC -> -> 253 `i `uc ]
 "75
 [; ;mcc_generated_files/pin_manager.c: 75:     ANSELB = 0xFF;
 [e = _ANSELB -> -> 255 `i `uc ]
@@ -1699,19 +1705,25 @@ Version 4.0 HI-TECH Software Intermediate Code
 "106
 [; ;mcc_generated_files/pin_manager.c: 106:     INLVLE = 0x08;
 [e = _INLVLE -> -> 8 `i `uc ]
-"114
-[; ;mcc_generated_files/pin_manager.c: 114: }
+"115
+[; ;mcc_generated_files/pin_manager.c: 115:     RC0PPS = 0x10;
+[e = _RC0PPS -> -> 16 `i `uc ]
+"116
+[; ;mcc_generated_files/pin_manager.c: 116:     RXPPS = 0x11;
+[e = _RXPPS -> -> 17 `i `uc ]
+"117
+[; ;mcc_generated_files/pin_manager.c: 117: }
 [e :UE 1564 ]
 }
-"116
-[; ;mcc_generated_files/pin_manager.c: 116: void PIN_MANAGER_IOC(void)
+"119
+[; ;mcc_generated_files/pin_manager.c: 119: void PIN_MANAGER_IOC(void)
 [v _PIN_MANAGER_IOC `(v ~T0 @X0 1 ef ]
-"117
-[; ;mcc_generated_files/pin_manager.c: 117: {
+"120
+[; ;mcc_generated_files/pin_manager.c: 120: {
 {
 [e :U _PIN_MANAGER_IOC ]
 [f ]
-"118
-[; ;mcc_generated_files/pin_manager.c: 118: }
+"121
+[; ;mcc_generated_files/pin_manager.c: 121: }
 [e :UE 1565 ]
 }

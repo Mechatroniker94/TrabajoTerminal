@@ -1,4 +1,4 @@
-# 1 "mcc_generated_files/mcc.c"
+# 1 "mcc_generated_files/eusart.c"
 # 1 "<built-in>" 1
 # 1 "<built-in>" 3
 # 288 "<built-in>" 3
@@ -6,10 +6,10 @@
 # 1 "<built-in>" 2
 # 1 "C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\\pic\\include\\language_support.h" 1 3
 # 2 "<built-in>" 2
-# 1 "mcc_generated_files/mcc.c" 2
-# 47 "mcc_generated_files/mcc.c"
-# 1 "mcc_generated_files/mcc.h" 1
-# 49 "mcc_generated_files/mcc.h"
+# 1 "mcc_generated_files/eusart.c" 2
+# 50 "mcc_generated_files/eusart.c"
+# 1 "mcc_generated_files/eusart.h" 1
+# 54 "mcc_generated_files/eusart.h"
 # 1 "C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\\pic\\include\\xc.h" 1 3
 # 18 "C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\\pic\\include\\xc.h" 3
 extern const char __xc8_OPTIM_SPEED;
@@ -19789,57 +19789,12 @@ extern __bank0 unsigned char __resetbits;
 extern __bank0 __bit __powerdown;
 extern __bank0 __bit __timeout;
 # 29 "C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\\pic\\include\\xc.h" 2 3
-# 49 "mcc_generated_files/mcc.h" 2
-
-# 1 "mcc_generated_files/device_config.h" 1
-# 50 "mcc_generated_files/mcc.h" 2
-
-# 1 "mcc_generated_files/pin_manager.h" 1
-# 122 "mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_Initialize (void);
-# 134 "mcc_generated_files/pin_manager.h"
-void PIN_MANAGER_IOC(void);
-# 51 "mcc_generated_files/mcc.h" 2
-
+# 54 "mcc_generated_files/eusart.h" 2
 
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\stdbool.h" 1 3
-# 53 "mcc_generated_files/mcc.h" 2
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\conio.h" 1 3
+# 55 "mcc_generated_files/eusart.h" 2
 
 
-
-
-
-
-
-# 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\errno.h" 1 3
-# 12 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\errno.h" 3
-extern int errno;
-# 8 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\conio.h" 2 3
-
-# 1 "C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\\pic\\include\\__null.h" 1 3
-# 9 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\conio.h" 2 3
-
-
-
-extern void init_uart(void);
-
-extern char getch(void);
-extern char getche(void);
-extern void putch(char);
-extern void ungetch(char);
-
-extern __bit kbhit(void);
-
-
-
-extern char * cgets(char *);
-extern void cputs(const char *);
-# 54 "mcc_generated_files/mcc.h" 2
-
-# 1 "mcc_generated_files/eusart.h" 1
-# 57 "mcc_generated_files/eusart.h"
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\stdio.h" 1 3
 # 24 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\stdio.h" 3
 # 1 "C:\\Program Files\\Microchip\\xc8\\v2.31\\pic\\include\\c99\\bits/alltypes.h" 1 3
@@ -20009,51 +19964,131 @@ void EUSART_SetFramingErrorHandler(void (* interruptHandler)(void));
 void EUSART_SetOverrunErrorHandler(void (* interruptHandler)(void));
 # 398 "mcc_generated_files/eusart.h"
 void EUSART_SetErrorHandler(void (* interruptHandler)(void));
-# 55 "mcc_generated_files/mcc.h" 2
-# 70 "mcc_generated_files/mcc.h"
-void SYSTEM_Initialize(void);
-# 83 "mcc_generated_files/mcc.h"
-void OSCILLATOR_Initialize(void);
-# 96 "mcc_generated_files/mcc.h"
-void PMD_Initialize(void);
-# 47 "mcc_generated_files/mcc.c" 2
+# 50 "mcc_generated_files/eusart.c" 2
+
+
+volatile eusart_status_t eusartRxLastError;
 
 
 
-void SYSTEM_Initialize(void)
+
+
+void (*EUSART_FramingErrorHandler)(void);
+void (*EUSART_OverrunErrorHandler)(void);
+void (*EUSART_ErrorHandler)(void);
+
+void EUSART_DefaultFramingErrorHandler(void);
+void EUSART_DefaultOverrunErrorHandler(void);
+void EUSART_DefaultErrorHandler(void);
+
+void EUSART_Initialize(void)
 {
-    PMD_Initialize();
-    PIN_MANAGER_Initialize();
-    OSCILLATOR_Initialize();
-    EUSART_Initialize();
+
+
+
+    BAUD1CON = 0x08;
+
+
+    RC1STA = 0x90;
+
+
+    TX1STA = 0x24;
+
+
+    SP1BRGL = 0xA0;
+
+
+    SP1BRGH = 0x01;
+
+
+    EUSART_SetFramingErrorHandler(EUSART_DefaultFramingErrorHandler);
+    EUSART_SetOverrunErrorHandler(EUSART_DefaultOverrunErrorHandler);
+    EUSART_SetErrorHandler(EUSART_DefaultErrorHandler);
+
+    eusartRxLastError.status = 0;
+
 }
 
-void OSCILLATOR_Initialize(void)
+_Bool EUSART_is_tx_ready(void)
 {
-
-    OSCCON1 = 0x60;
-
-    OSCCON3 = 0x00;
-
-    OSCEN = 0x00;
-
-    OSCFRQ = 0x05;
-
-    OSCTUNE = 0x00;
+    return (_Bool)(PIR3bits.TXIF && TX1STAbits.TXEN);
 }
 
-void PMD_Initialize(void)
+_Bool EUSART_is_rx_ready(void)
 {
+    return (_Bool)(PIR3bits.RCIF);
+}
 
-    PMD0 = 0x00;
+_Bool EUSART_is_tx_done(void)
+{
+    return TX1STAbits.TRMT;
+}
 
-    PMD1 = 0x00;
+eusart_status_t EUSART_get_last_status(void){
+    return eusartRxLastError;
+}
 
-    PMD2 = 0x00;
+uint8_t EUSART_Read(void)
+{
+    while(!PIR3bits.RCIF)
+    {
+    }
 
-    PMD3 = 0x00;
+    eusartRxLastError.status = 0;
 
-    PMD4 = 0x00;
+    if(1 == RC1STAbits.OERR)
+    {
 
-    PMD5 = 0x00;
+
+        RC1STAbits.CREN = 0;
+        RC1STAbits.CREN = 1;
+    }
+
+    return RC1REG;
+}
+
+void EUSART_Write(uint8_t txData)
+{
+    while(0 == PIR3bits.TXIF)
+    {
+    }
+
+    TX1REG = txData;
+}
+
+char getch(void)
+{
+    return EUSART_Read();
+}
+
+void putch(char txData)
+{
+    EUSART_Write(txData);
+}
+
+
+
+void EUSART_DefaultFramingErrorHandler(void){}
+
+void EUSART_DefaultOverrunErrorHandler(void){
+
+
+    RC1STAbits.CREN = 0;
+    RC1STAbits.CREN = 1;
+
+}
+
+void EUSART_DefaultErrorHandler(void){
+}
+
+void EUSART_SetFramingErrorHandler(void (* interruptHandler)(void)){
+    EUSART_FramingErrorHandler = interruptHandler;
+}
+
+void EUSART_SetOverrunErrorHandler(void (* interruptHandler)(void)){
+    EUSART_OverrunErrorHandler = interruptHandler;
+}
+
+void EUSART_SetErrorHandler(void (* interruptHandler)(void)){
+    EUSART_ErrorHandler = interruptHandler;
 }

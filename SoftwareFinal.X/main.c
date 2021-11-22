@@ -50,6 +50,7 @@ void main(void)
 {
     // initialize the device
     SYSTEM_Initialize();
+    EUSART_Initialize();
 
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -65,15 +66,16 @@ void main(void)
 
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
-
+    
     while (1)
     {
+        printf("Hola desde el uC\n");
         Led_LAT = 1;
         __delay_ms(1000);
         Led_LAT = 0;
         __delay_ms(1000);
         // Add your application code
-    }
+    }   
 }
 /**
  End of File
