@@ -85,6 +85,26 @@
 #define Led_SetAnalogMode()      do { ANSELAbits.ANSA0 = 1; } while(0)
 #define Led_SetDigitalMode()     do { ANSELAbits.ANSA0 = 0; } while(0)
 
+// get/set AN0 aliases
+#define AN0_TRIS                 TRISAbits.TRISA4
+#define AN0_LAT                  LATAbits.LATA4
+#define AN0_PORT                 PORTAbits.RA4
+#define AN0_WPU                  WPUAbits.WPUA4
+#define AN0_OD                   ODCONAbits.ODCA4
+#define AN0_ANS                  ANSELAbits.ANSA4
+#define AN0_SetHigh()            do { LATAbits.LATA4 = 1; } while(0)
+#define AN0_SetLow()             do { LATAbits.LATA4 = 0; } while(0)
+#define AN0_Toggle()             do { LATAbits.LATA4 = ~LATAbits.LATA4; } while(0)
+#define AN0_GetValue()           PORTAbits.RA4
+#define AN0_SetDigitalInput()    do { TRISAbits.TRISA4 = 1; } while(0)
+#define AN0_SetDigitalOutput()   do { TRISAbits.TRISA4 = 0; } while(0)
+#define AN0_SetPullup()          do { WPUAbits.WPUA4 = 1; } while(0)
+#define AN0_ResetPullup()        do { WPUAbits.WPUA4 = 0; } while(0)
+#define AN0_SetPushPull()        do { ODCONAbits.ODCA4 = 0; } while(0)
+#define AN0_SetOpenDrain()       do { ODCONAbits.ODCA4 = 1; } while(0)
+#define AN0_SetAnalogMode()      do { ANSELAbits.ANSA4 = 1; } while(0)
+#define AN0_SetDigitalMode()     do { ANSELAbits.ANSA4 = 0; } while(0)
+
 // get/set RC0 procedures
 #define RC0_SetHigh()            do { LATCbits.LATC0 = 1; } while(0)
 #define RC0_SetLow()             do { LATCbits.LATC0 = 0; } while(0)

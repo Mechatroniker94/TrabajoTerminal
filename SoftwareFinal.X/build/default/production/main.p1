@@ -1,11 +1,27 @@
 Version 4.0 HI-TECH Software Intermediate Code
 [p mainexit ]
-"70 ./mcc_generated_files/mcc.h
-[; ;./mcc_generated_files/mcc.h: 70: void SYSTEM_Initialize(void);
+"71 ./mcc_generated_files/mcc.h
+[; ;./mcc_generated_files/mcc.h: 71: void SYSTEM_Initialize(void);
 [v _SYSTEM_Initialize `(v ~T0 @X0 0 ef ]
 "111 ./mcc_generated_files/eusart.h
 [; ;./mcc_generated_files/eusart.h: 111: void EUSART_Initialize(void);
 [v _EUSART_Initialize `(v ~T0 @X0 0 ef ]
+"127 ./mcc_generated_files/adcc.h
+[; ;./mcc_generated_files/adcc.h: 127: void ADCC_Initialize(void);
+[v _ADCC_Initialize `(v ~T0 @X0 0 ef ]
+"74 main.c
+[; ;main.c: 74:         ADCC_StartConversion(AN0);
+[c E11702 4 60 61 62 63 .. ]
+[n E11702 . AN0 channel_VSS channel_Temp channel_DAC1 channel_FVR_buf1  ]
+"156 ./mcc_generated_files/adcc.h
+[; ;./mcc_generated_files/adcc.h: 156: void ADCC_StartConversion(adcc_channel_t channel);
+[v _ADCC_StartConversion `(v ~T0 @X0 0 ef1`E11702 ]
+"186
+[; ;./mcc_generated_files/adcc.h: 186: _Bool ADCC_IsConversionDone(void);
+[v _ADCC_IsConversionDone `(a ~T0 @X0 0 ef ]
+"218
+[; ;./mcc_generated_files/adcc.h: 218: adc_result_t ADCC_GetConversionResult(void);
+[v _ADCC_GetConversionResult `(us ~T0 @X0 0 ef ]
 "111 C:\Program Files\Microchip\xc8\v2.31\pic\include\c99\stdio.h
 [v _printf `(i ~T0 @X0 0 ev`*Cuc ]
 "784 C:/Program Files/Microchip/MPLABX/v5.50/packs/Microchip/PIC16F1xxxx_DFP/1.7.146/xc8\pic\include\proc\pic16f18855.h
@@ -1592,36 +1608,56 @@ Version 4.0 HI-TECH Software Intermediate Code
 "53
 [; ;main.c: 53:     EUSART_Initialize();
 [e ( _EUSART_Initialize ..  ]
+"54
+[; ;main.c: 54:     ADCC_Initialize();
+[e ( _ADCC_Initialize ..  ]
 "70
-[; ;main.c: 70:     while (1)
-[e :U 1570 ]
+[; ;main.c: 70:     int convertedValue = 0;
+[v _convertedValue `i ~T0 @X0 1 a ]
+[e = _convertedValue -> 0 `i ]
 "71
-[; ;main.c: 71:     {
-{
+[; ;main.c: 71:     while (1)
+[e :U 1570 ]
 "72
-[; ;main.c: 72:         printf("Hola desde el uC\n");
-[e ( _printf :s 1C ]
-"73
-[; ;main.c: 73:         LATAbits.LATA0 = 1;
-[e = . . _LATAbits 0 0 -> -> 1 `i `uc ]
+[; ;main.c: 72:     {
+{
 "74
-[; ;main.c: 74:         _delay((unsigned long)((1000)*(16000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 16000000 `l `d .4000.0 `ul ]
+[; ;main.c: 74:         ADCC_StartConversion(AN0);
+[e ( _ADCC_StartConversion (1 . `E11702 0 ]
 "75
-[; ;main.c: 75:         LATAbits.LATA0 = 0;
-[e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
+[; ;main.c: 75:         while(!ADCC_IsConversionDone());
+[e $U 1572  ]
+[e :U 1573 ]
+[e :U 1572 ]
+[e $ ! != -> ( _ADCC_IsConversionDone ..  `i -> 0 `i 1573  ]
+[e :U 1574 ]
 "76
-[; ;main.c: 76:         _delay((unsigned long)((1000)*(16000000/4000.0)));
-[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 16000000 `l `d .4000.0 `ul ]
+[; ;main.c: 76:         convertedValue = ADCC_GetConversionResult();
+[e = _convertedValue -> ( _ADCC_GetConversionResult ..  `i ]
+"77
+[; ;main.c: 77:         printf("El ADC es: %d\n", convertedValue);
+[e ( _printf , (. :s 1C _convertedValue ]
 "78
-[; ;main.c: 78:     }
+[; ;main.c: 78:         LATAbits.LATA0 = 1;
+[e = . . _LATAbits 0 0 -> -> 1 `i `uc ]
+"79
+[; ;main.c: 79:         _delay((unsigned long)((1000)*(16000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 16000000 `l `d .4000.0 `ul ]
+"80
+[; ;main.c: 80:         LATAbits.LATA0 = 0;
+[e = . . _LATAbits 0 0 -> -> 0 `i `uc ]
+"81
+[; ;main.c: 81:         _delay((unsigned long)((1000)*(16000000/4000.0)));
+[e ( __delay (1 -> * -> -> 1000 `i `d / -> -> 16000000 `l `d .4000.0 `ul ]
+"83
+[; ;main.c: 83:     }
 }
 [e :U 1569 ]
 [e $U 1570  ]
 [e :U 1571 ]
-"79
-[; ;main.c: 79: }
+"84
+[; ;main.c: 84: }
 [e :UE 1568 ]
 }
-[p f _printf 8388608 ]
-[a 1C 72 111 108 97 32 100 101 115 100 101 32 101 108 32 117 67 10 0 ]
+[p f _printf 8388736 ]
+[a 1C 69 108 32 65 68 67 32 101 115 58 32 37 100 10 0 ]

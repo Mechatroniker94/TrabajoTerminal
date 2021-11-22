@@ -51,6 +51,7 @@ void main(void)
     // initialize the device
     SYSTEM_Initialize();
     EUSART_Initialize();
+    ADCC_Initialize();
 
     // When using interrupts, you need to set the Global and Peripheral Interrupt Enable bits
     // Use the following macros to:
@@ -66,10 +67,14 @@ void main(void)
 
     // Disable the Peripheral Interrupts
     //INTERRUPT_PeripheralInterruptDisable();
-    
+    int convertedValue = 0;
     while (1)
     {
-        printf("Hola desde el uC\n");
+        
+        ADCC_StartConversion(AN0);
+        while(!ADCC_IsConversionDone());
+        convertedValue = ADCC_GetConversionResult();
+        printf("El ADC es: %d\n", convertedValue);
         Led_LAT = 1;
         __delay_ms(1000);
         Led_LAT = 0;
